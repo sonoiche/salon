@@ -40,7 +40,8 @@ class SubscriptionDataTable extends DataTable
      */
     public function query(Subscription $model): QueryBuilder
     {
-        return $model->newQuery();
+        $user_id = auth()->user()->id;
+        return $model->where('user_id', $user_id);
     }
 
     /**

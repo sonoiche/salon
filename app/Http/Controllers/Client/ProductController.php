@@ -11,6 +11,7 @@ use App\Models\SalonProductPhoto;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
 use App\DataTables\Client\ProductDataTable;
+use App\Http\Requests\Client\ProductRequest;
 
 class ProductController extends Controller
 {
@@ -30,7 +31,7 @@ class ProductController extends Controller
         return view('client.products.create', $data);
     }
 
-    public function store(Request $request)
+    public function store(ProductRequest $request)
     {
         $product_id = $request['product_id'];
         $user_id    = auth()->user()->id;
@@ -46,13 +47,13 @@ class ProductController extends Controller
             $salon_product->amount      = $request['amount'];
             $salon_product->quantity    = $request['quantity'];
             $salon_product->status      = ($request['quantity'] > 0) ? 'In Stock' : 'Out of Stock';
+            $salon_product->product_sku = strtoupper(Str::random(10));
             $salon_product->save();
         } else {
             $product = new Product();
             $product->user_id       = $user_id;
             $product->name          = $request['product_id'];
             $product->status        = 'Active';
-            $product->product_sku   = strtoupper(Str::random(10));
             $product->save();
 
             $product_id = $product->id;
@@ -65,25 +66,27 @@ class ProductController extends Controller
             $salon_product->amount      = $request['amount'];
             $salon_product->quantity    = $request['quantity'];
             $salon_product->status      = ($request['quantity'] > 0) ? 'In Stock' : 'Out of Stock';
+            $salon_product->product_sku = strtoupper(Str::random(10));
             $salon_product->save();
         }
 
         // Product Photos
         $photos = $request->file('photos');
-        foreach ($photos as $file) {
-            $photo = time().'.'.$file->getClientOriginalExtension();
+        if($request->has('photos')) {
+            foreach ($photos as $file) {
+                $photo = time().'.'.$file->getClientOriginalExtension();
 
-            $path = Storage::disk('s3')->putFileAs(
-                'salon/uploads/products',
-                $file,
-                $photo,
-                'public'
-            );
-            
-            $product_photo = new SalonProductPhoto();
-            $product_photo->salon_product_id = $salon_product->id;
-            $product_photo->photo            =  Storage::disk('s3')->url($path);
-            $product_photo->save();
+                Storage::disk('s3')->put(
+                    'salon/uploads/products/' . $photo,
+                    file_get_contents($file),
+                    'public'
+                );
+                
+                $product_photo = new SalonProductPhoto();
+                $product_photo->salon_product_id = $salon_product->id;
+                $product_photo->photo            =  Storage::disk('s3')->url('salon/uploads/products/' . $photo);
+                $product_photo->save();
+            }
         }
 
         return redirect()->to('client/products')->with('success', 'Product added successfully');
@@ -99,7 +102,7 @@ class ProductController extends Controller
         return view('client.products.edit', $data);
     }
 
-    public function update(Request $request, $id)
+    public function update(ProductRequest $request, $id)
     {
         $product_id = $request['product_id'];
         $user_id    = auth()->user()->id;
@@ -116,7 +119,6 @@ class ProductController extends Controller
             $product->user_id       = $user_id;
             $product->name          = $request['product_id'];
             $product->status        = 'Active';
-            $product->product_sku   = strtoupper(Str::random(10));
             $product->save();
 
             $product_id = $product->id;
@@ -135,16 +137,15 @@ class ProductController extends Controller
         foreach ($photos as $file) {
             $photo = time().'.'.$file->getClientOriginalExtension();
 
-            $path = Storage::disk('s3')->putFileAs(
-                'salon/uploads/products',
-                $file,
-                $photo,
+            Storage::disk('s3')->put(
+                'salon/uploads/products/' . $photo,
+                file_get_contents($file),
                 'public'
             );
             
             $product_photo = new SalonProductPhoto();
             $product_photo->salon_product_id = $salon_product->id;
-            $product_photo->photo            =  Storage::disk('s3')->url($path);
+            $product_photo->photo            =  Storage::disk('s3')->url('salon/uploads/products/' . $photo);
             $product_photo->save();
         }
 

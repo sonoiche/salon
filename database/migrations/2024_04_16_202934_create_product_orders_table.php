@@ -13,6 +13,13 @@ return new class extends Migration
     {
         Schema::create('product_orders', function (Blueprint $table) {
             $table->id();
+            $table->string('invoice_number');
+            $table->integer('customer_id');
+            $table->bigInteger('quantity')->nullable();
+            $table->decimal('amount', 8, 2)->nullable();
+            $table->enum('payment_method', ['GCash','Cash'])->nullable();
+            $table->enum('payment_status', ['Pending','Paid','Cancelled']);
+            $table->string('proof_of_payment')->nullable();
             $table->timestamps();
         });
     }

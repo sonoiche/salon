@@ -131,9 +131,9 @@
 <!-- Custom-Switcher JS -->
 {{-- <script src="{{ url('backend/js/custom-switcher.min.js') }}"></script> --}}
 <!-- Mail Settings -->
-<script src="{{ url('backend/js/mail-settings.js') }}"></script>
+{{-- <script src="{{ url('backend/js/mail-settings.js') }}"></script> --}}
 <!-- Custom JS -->
-<script src="{{ url('backend/js/custom.js') }}"></script>
+{{-- <script src="{{ url('backend/js/custom.js') }}"></script> --}}
 <script type="text/javascript" src="{{ asset('vendor/jsvalidation/js/jsvalidation.js')}}"></script>
 
 <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>

@@ -17,6 +17,7 @@ return new class extends Migration
             $table->integer('user_id');
             $table->integer('client_id');
             $table->text('description')->nullable();
+            $table->string('product_sku')->nullable();
             $table->decimal('amount', 8, 2)->nullable();
             $table->enum('status', ['In Stock', 'Out of Stock'])->nullable();
             $table->bigInteger('quantity')->nullable();

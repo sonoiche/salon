@@ -2,6 +2,7 @@
 
 namespace App\DataTables\Client;
 
+use App\Models\Client;
 use App\Models\SalonService;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
@@ -34,7 +35,10 @@ class ServiceDataTable extends DataTable
      */
     public function query(SalonService $model): QueryBuilder
     {
-        return $model->newQuery();
+        $client = Client::where('user_id', auth()->user()->id)->first();
+        return $model->join('services','services.id','=','salon_services.service_id')
+            ->select('services.name','salon_services.*')
+            ->where('salon_services.client_id', $client->id);
     }
 
     /**

@@ -206,17 +206,13 @@
                             <img src="{{ url('backend/images/faces/9.jpg') }}" alt="img" class="avatar avatar-sm avatar-rounded">
                         </div>
                         <div class="d-xl-block d-none lh-1">
-                            <span class="fw-medium lh-1">Mr. Stark</span>
+                            <span class="fw-medium lh-1">{{ auth()->user()->fname }}</span>
                         </div>
                     </div>
                 </a>
                 <!-- End::header-link|dropdown-toggle -->
                 <ul class="main-header-dropdown dropdown-menu pt-0 overflow-hidden header-profile-dropdown dropdown-menu-end" aria-labelledby="mainHeaderProfile">
-                    <li><a class="dropdown-item d-flex align-items-center" href="profile.html"><i class="bi bi-person fs-18 me-2 op-7"></i>Profile</a></li>
-                    <li><a class="dropdown-item d-flex align-items-center" href="mail.html"><i class="bi bi-envelope fs-16 me-2 op-7"></i>Inbox <span class="ms-auto badge bg-light border text-default">19</span></a></li>
-                    <li><a class="dropdown-item d-flex align-items-center" href="to-do-list.html"><i class="bi bi-check-square fs-16 me-2 op-7"></i>Task Manager</a></li>
-                    <li><a class="dropdown-item d-flex align-items-center" href="mail-settings.html"><i class="bi bi-gear fs-16 me-2 op-7"></i>Settings</a></li>
-                    <li><a class="dropdown-item d-flex align-items-center" href="chat.html"><i class="bi bi-headset fs-18 me-2 op-7"></i>Support</a></li>
+                    <li><a class="dropdown-item d-flex align-items-center" href="{{ url(strtolower(auth()->user()->role) . '/settings/users') }}"><i class="bi bi-gear fs-16 me-2 op-7"></i>Settings</a></li>
                     <li>
                         <a class="dropdown-item d-flex align-items-center" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="bi bi-box-arrow-right fs-18 me-2 op-7"></i>Log Out</a>
                         <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
@@ -225,16 +221,6 @@
                     </li>
                 </ul>
             </li>  
-            <!-- End::header-element -->
-
-            <!-- Start::header-element -->
-            <li class="header-element">
-                <!-- Start::header-link|switcher-icon -->
-                <a href="javascript:void(0);" class="header-link switcher-icon" data-bs-toggle="offcanvas" data-bs-target="#switcher-canvas">
-                    <i class="bi bi-gear header-link-icon border-0"></i>
-                </a>
-                <!-- End::header-link|switcher-icon -->
-            </li>
             <!-- End::header-element -->
         </ul>
         <!-- End::header-content-right -->

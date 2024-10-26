@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Support\Str;
 use App\Models\SalonProductPhoto;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -13,16 +14,14 @@ class Product extends Model
 
     protected $table = "products";
     protected $guarded = [];
-    protected $appends = ['feature_photo'];
+    protected $appends = ['slug_name'];
 
-    public function getFeaturePhotoAttribute()
+    public function getSlugNameAttribute()
     {
-        $result = $this->photos;
-        if(count($result)) {
-            return url($result[0]->photo);
+        $name = $this->attributes['name'] ?? '';
+        if($name) {
+            return Str::slug($name);
         }
-
-        return url('backend/images/faces/9.jpg');
     }
 
     public function photos()

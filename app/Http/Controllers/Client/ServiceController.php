@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\DataTables\Client\ServiceDataTable;
 use App\Http\Requests\Client\ServiceRequest;
+use App\Models\Service;
 
 class ServiceController extends Controller
 {
@@ -23,6 +24,7 @@ class ServiceController extends Controller
     {
         $data['page_title'] = 'Services';
         $data['header']     = 'Add New Service';
+        $data['services']   = Service::orderBy('name')->get();
 
         return view('client.services.create', $data);
     }
@@ -34,7 +36,7 @@ class ServiceController extends Controller
 
         $service = new SalonService();
         $service->client_id     = $client->id;
-        $service->name          = $request['service_name'];
+        $service->service_id    = $request['service_id'];
         $service->price         = $request['price'];
         $service->status        = $request['status'];
         $service->description   = $request['description'];
@@ -48,6 +50,7 @@ class ServiceController extends Controller
         $data['page_title'] = 'Services';
         $data['header']     = 'Update Service';
         $data['service']    = SalonService::find($id);
+        $data['services']   = Service::orderBy('name')->get();
 
         return view('client.services.edit', $data);
     }
@@ -55,7 +58,7 @@ class ServiceController extends Controller
     public function update(ServiceRequest $request, $id)
     {
         $service = SalonService::find($id);
-        $service->name          = $request['service_name'];
+        $service->service_id    = $request['service_id'];
         $service->price         = $request['price'];
         $service->status        = $request['status'];
         $service->description   = $request['description'];

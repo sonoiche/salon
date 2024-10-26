@@ -22,7 +22,7 @@ class CompanyController extends Controller
     public function store(CompanyRequest $request)
     {
         $user_id    = auth()->user()->id;
-        $photo      = '';
+        $photo      = NULL;
         
         if(isset($request['photo']) && $request->has('photo')) {
             $file  = $request->file('photo');

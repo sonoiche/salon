@@ -1,7 +1,12 @@
 <div class="row gy-4 mb-4">
     <div class="col-xl-12">
-        <label for="service_name" class="form-label">Service Name</label>
-        <input type="text" name="service_name" id="service_name" class="form-control rounded-0" value="{{ $service->name ?? '' }}" />
+        <label for="service_id" class="form-label">Service Name</label>
+        <select name="service_id" id="service_id" class="form-select">
+            <option value="">Select Service</option>
+            @foreach ($services as $item)
+            <option value="{{ $item->id }}" {{ (isset($service->service_id) && $service->service_id == $item->id) ? 'selected' : '' }}>{{ $item->name }}</option>
+            @endforeach
+        </select>
     </div>
     <div class="col-xl-12">
         <label for="description" class="form-label">Description</label>

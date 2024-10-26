@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('salon_services', function (Blueprint $table) {
             $table->id();
             $table->integer('client_id');
-            $table->string('name')->nullable();
+            $table->integer('service_id')->nullable();
             $table->text('description')->nullable();
             $table->decimal('price', 8, 2)->nullable();
             $table->enum('status', ['Active','Inactive'])->nullable();

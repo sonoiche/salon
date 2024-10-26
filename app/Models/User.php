@@ -3,7 +3,10 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Carbon\Carbon;
 use App\Models\Client;
+use App\Models\Customer;
+use App\Models\ProductOrder;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -42,6 +45,34 @@ class User extends Authenticatable
         ];
     }
 
+    protected $appends = ['created_date','fullname','total_purchase'];
+
+    public function getCreatedDateAttribute()
+    {
+        $created_at = $this->attributes['created_at'] ?? '';
+        if($created_at) {
+            return Carbon::parse($created_at)->format('d M, Y');
+        }
+
+        return '';
+    }
+
+    public function getFullnameAttribute()
+    {
+        $fname = $this->attributes['fname'] ?? '';
+        $lname = $this->attributes['lname'] ?? '';
+        if($fname && $lname) {
+            return $fname . ' ' . $lname;
+        }
+
+        return '';
+    }
+
+    public function getTotalPurchaseAttribute()
+    {
+        return $this->orders()->sum('amount');
+    }
+
     public function isSubscribed()
     {
         $today = now()->format('Y-m-d h:i:s');
@@ -55,5 +86,20 @@ class User extends Authenticatable
     public function client()
     {
         return $this->belongsTo(Client::class, 'user_id');
+    }
+
+    public function subscriptions()
+    {
+        return $this->hasMany(Subscription::class, 'user_id');
+    }
+
+    public function customer()
+    {
+        return $this->belongsTo(Customer::class, 'user_id');
+    }
+
+    public function orders()
+    {
+        return $this->hasMany(ProductOrder::class, 'customer_id');
     }
 }

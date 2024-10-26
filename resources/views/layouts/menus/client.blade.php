@@ -81,12 +81,18 @@
                             <a href="javascript:void(0)">Services</a>
                         </li>
                         <li class="slide">
-                            <a href="{{ url('client/services') }}" class="side-menu__item">List of Services</a>
+                            <a href="{{ url('client/services') }}" class="side-menu__item">My Services</a>
                         </li>
                         <li class="slide">
                             <a href="{{ url('client/services/create') }}" class="side-menu__item">Add Service</a>
                         </li>
                     </ul>
+                </li>
+                <li class="slide">
+                    <a href="{{ url('client/appointments') }}" class="side-menu__item">
+                        <i class="bi bi-calendar side-menu__icon"></i>
+                        <span class="side-menu__label">Appointments</span>
+                    </a>
                 </li>
                 <li class="slide">
                     <a href="{{ url('client/orders') }}" class="side-menu__item">
@@ -99,6 +105,27 @@
                         <i class="bi bi-people-fill side-menu__icon"></i>
                         <span class="side-menu__label">Customers</span>
                     </a>
+                </li>
+                <li class="slide has-sub">
+                    <a href="javascript:void(0);" class="side-menu__item">
+                        <i class="bi bi-bar-chart side-menu__icon"></i>
+                        <span class="side-menu__label">Reports</span>
+                        <i class="fe fe-chevron-right side-menu__angle"></i>
+                    </a>
+                    <ul class="slide-menu child1 reports-ul">
+                        <li class="slide side-menu__label1">
+                            <a href="javascript:void(0)">Reports</a>
+                        </li>
+                        <li class="slide">
+                            <a href="{{ url('client/reports/customers') }}" class="side-menu__item">Customers</a>
+                        </li>
+                        <li class="slide">
+                            <a href="{{ url('client/reports/appointments') }}" class="side-menu__item">Appointments</a>
+                        </li>
+                        <li class="slide">
+                            <a href="{{ url('client/reports/sales') }}" class="side-menu__item">Sales</a>
+                        </li>
+                    </ul>
                 </li>
             </ul>
             <div class="slide-right" id="slide-right">

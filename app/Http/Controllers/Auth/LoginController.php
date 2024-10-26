@@ -43,12 +43,14 @@ class LoginController extends Controller
         $today = now()->format('Y-m-d');
         if($user->role == 'Client' && ($user->subscribe_until == NULL || $user->subscribe_until < $today)) {
             return redirect()->to('client/settings/subscription');
-        } else {
+        }
+
+        if($user->role == 'Client' && ($user->subscribe_until !== NULL || $user->subscribe_until >= $today)) {
             return redirect()->to('home');
         }
 
         if($user->role == 'Customer') {
-            return redirect()->to('home');
+            return redirect()->to('products');
         }
     }
 }

@@ -6476,7 +6476,7 @@ h1, h2, h3, h4, h5, h6, .feedback-content-item, .news-item .news-header .date sp
         .pricing-content .pricing-title .price {
           font-size: 20px; } }
       .pricing-content .pricing-title .price:before {
-        content: '$'; }
+        content: 'P'; }
   .pricing-content p {
     margin-bottom: 0; }
 
@@ -7779,7 +7779,7 @@ h1, h2, h3, h4, h5, h6, .feedback-content-item, .news-item .news-header .date sp
     margin-left: auto;
     margin-right: auto; }
     .cart-single-item .product-price:before {
-      content: '$'; }
+      content: 'P'; }
   .cart-single-item .quantity-input {
     display: -webkit-inline-box;
     display: -ms-inline-flexbox;
@@ -7794,7 +7794,7 @@ h1, h2, h3, h4, h5, h6, .feedback-content-item, .news-item .news-header .date sp
     text-align: center;
     color: #242424; }
     .cart-single-item .product-total-price:before {
-      content: '$'; }
+      content: 'P'; }
   @media only screen and (max-width: 767px) {
     .cart-single-item {
       text-align: center;
@@ -7832,7 +7832,7 @@ h1, h2, h3, h4, h5, h6, .feedback-content-item, .news-item .news-header .date sp
 .total-price:before,
 .shipping-price:before,
 .sub-total-price:before {
-  content: '$'; }
+  content: 'P'; }
 
 .discount-wrapper input {
   max-width: 200px;

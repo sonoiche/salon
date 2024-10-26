@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->integer('user_id');
             $table->string('name');
-            $table->string('product_sku')->nullable();
             $table->enum('status', ['Active', 'Inactive'])->nullable();
             $table->timestamps();
             $table->softDeletes();

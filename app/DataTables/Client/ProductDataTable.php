@@ -2,7 +2,9 @@
 
 namespace App\DataTables\Client;
 
+use App\Models\Client;
 use App\Models\Product;
+use App\Models\SalonProduct;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
@@ -23,7 +25,8 @@ class ProductDataTable extends DataTable
     {
         return (new EloquentDataTable($query))
             ->editColumn('feature_photo', function (Product $product) {
-                return '<img src="' .$product->feature_photo. '" class="img-thumbnail" />';
+                $salonProduct = SalonProduct::where('product_id', $product->id)->first();
+                return '<img src="' .$salonProduct->feature_photo. '" class="img-thumbnail" />';
             })
             ->editColumn('created_at', function (Product $product) {
                 return $product->created_at->format('d F, Y');
@@ -38,14 +41,18 @@ class ProductDataTable extends DataTable
      */
     public function query(Product $model): QueryBuilder
     {
+        $user   = auth()->user();
+        $client = Client::where('user_id', $user->id)->first();
         return $model->select([
             'salon_products.id',
             'salon_products.amount',
             'products.name',
-            'products.product_sku',
+            'salon_products.product_sku',
             'salon_products.status',
             'salon_products.created_at'
-        ])->join('salon_products','salon_products.product_id','=','products.id');
+        ])
+        ->join('salon_products','salon_products.product_id','=','products.id')
+        ->where('salon_products.client_id', $client->id);
     }
 
     /**
