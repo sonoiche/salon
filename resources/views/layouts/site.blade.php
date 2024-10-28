@@ -86,14 +86,16 @@
                                 </div>
                                 @endif
                             </a>
-                           
+                            
+                            @if (auth()->check())
                             <!-- Nav Search -->
-                           <div class="nav-search py-15">
+                            <div class="nav-search py-15">
                                 <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="fas fa-sign-out-alt"></a>
                                 <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                     @csrf
                                 </form>
                             </div>
+                            @endif
                         </div>
                     </div>
                 </div>
