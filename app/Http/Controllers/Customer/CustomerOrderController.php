@@ -80,7 +80,7 @@ class CustomerOrderController extends Controller
             $order->save();
         }
 
-        return redirect()->to('customer/orders/' . $order->order_id);
+        return redirect()->to('dashboard');
     }
 
     /**

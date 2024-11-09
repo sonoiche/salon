@@ -22,11 +22,12 @@ class ClientAppointmentController extends Controller
         $data['header']     = 'List of Appointments';
         $client             = Client::where('user_id', auth()->user()->id)->first();
 
-        $data['appointments']   = Appointment::where('client_id', $client->id)
+        $data['appointments']   = isset($client->id) ? Appointment::where('client_id', $client->id)
             ->where('status', '!=', 'Declined')
             ->orderBy('appointment_date', 'desc')
             ->orderBy('appointment_time', 'desc')
-            ->get();
+            ->get() : [];
+            
         return view('client.appointments.index', $data);
     }
 

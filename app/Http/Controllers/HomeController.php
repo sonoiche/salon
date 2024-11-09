@@ -59,12 +59,12 @@ class HomeController extends Controller
                 $data['page_title'] = 'Client';
                 $data['header']     = '';
                 $client             = Client::where('user_id', $user_id)->first();
-                $data['orders']     = ProductOrder::where('client_id', $client->id)->latest()->get();
-                $data['orderCount'] = ProductOrder::where('client_id', $client->id)->count();
-                $data['totalSales'] = ProductOrder::where('client_id', $client->id)->where('payment_status', 'Paid')->sum('amount');
-                $customer_ids       = ProductOrder::where('client_id', $client->id)->distinct()->pluck('customer_id');
+                $data['orders']     = isset($client->id) ? ProductOrder::where('client_id', $client->id)->latest()->get() : [];
+                $data['orderCount'] = isset($client->id) ? ProductOrder::where('client_id', $client->id)->count() : 0;
+                $data['totalSales'] = isset($client->id) ? ProductOrder::where('client_id', $client->id)->where('payment_status', 'Paid')->sum('amount') : '0.00';
+                $customer_ids       = isset($client->id) ? ProductOrder::where('client_id', $client->id)->distinct()->pluck('customer_id') : [];
                 $data['customerCount'] = User::whereIn('id', $customer_ids)->count();
-                $data['productCount']  = SalonProduct::where('client_id', $client->id)->count();
+                $data['productCount']  = isset($client->id) ? SalonProduct::where('client_id', $client->id)->count() : 0;
                 $data['customers']  = User::whereIn('id', $customer_ids)->withCount('orders')->get();
 
                 break;

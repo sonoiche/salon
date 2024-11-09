@@ -25,7 +25,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($appointments as $key => $appointment)
+                            @forelse ($appointments as $key => $appointment)
                             <tr>
                                 <td>{{ $key+1 }}</td>
                                 <td>{{ $appointment->customer->fullname ?? '' }}</td>
@@ -45,7 +45,11 @@
                                     </div>
                                 </td>
                             </tr>
-                            @endforeach
+                            @empty
+                            <tr>
+                                <td colspan="7" class="text-center">No data available</td>
+                            </tr>
+                            @endforelse
                         </tbody>
                     </table>
                 </div>

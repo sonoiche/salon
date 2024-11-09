@@ -29,7 +29,9 @@ class SubscriptionDataTable extends DataTable
                 return 'P' . $subscription->amount;
             })
             ->editColumn('proof_of_payment', function (Subscription $subscription) {
-                return '<a href="' .$subscription->proof_of_payment. '" class="btn btn-outline-primary btn-sm" target="_blank"><i class="bi bi-download"></i> &nbsp; ' . basename($subscription->proof_of_payment) . '</a>';
+                if(isset($subscription->proof_of_payment)) {
+                    return '<a href="' .$subscription->proof_of_payment. '" class="btn btn-outline-primary btn-sm" target="_blank"><i class="bi bi-download"></i> &nbsp; ' . basename($subscription->proof_of_payment) . '</a>';
+                }
             })
             ->setRowId('id')
             ->rawColumns(['proof_of_payment']);

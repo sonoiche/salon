@@ -56,7 +56,7 @@ class AppointmentController extends Controller
         $content = ['message' => $message];
         Mail::to($user->email)->send(new AppointmentMail($customer, $content, $client, $appointment));
 
-        return redirect()->back()->with('success', 'Appointment has been sent.');
+        return redirect()->to('appointment')->with('success', 'Appointment has been sent.');
     }
 
     /**
@@ -77,8 +77,9 @@ class AppointmentController extends Controller
      */
     public function edit(string $id, Request $request)
     {
+        $client = Client::find($id);
         $service_id = $request['service_id'];
-        $data['service'] = SalonService::where('service_id', $service_id)->where('client_id', $id)->first();
+        $data['service'] = SalonService::where('service_id', $service_id)->where('client_id', $client->user_id)->first();
 
         return response()->json($data);
     }

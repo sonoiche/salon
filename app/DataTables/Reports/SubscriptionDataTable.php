@@ -30,7 +30,7 @@ class SubscriptionDataTable extends DataTable
             })
             ->editColumn('client_name', function (Subscription $subscription) {
                 $client = Client::where('user_id', $subscription->user_id)->first();
-                return $client->name;
+                return $client->name ?? 'No Client Name';
             })
             ->editColumn('amount', function (Subscription $subscription) {
                 return 'P' . $subscription->amount;

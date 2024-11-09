@@ -29,7 +29,7 @@ class ClientDataTable extends DataTable
             })
             ->editColumn('subscribe_until', function (Client $client) {
                 $user = User::find($client->user_id);
-                return Carbon::parse($user->subscribe_until)->format('d M Y h:i A');
+                return isset($user->subscribe_until) ? Carbon::parse($user->subscribe_until)->format('d M Y h:i A') : '';
             })
             ->addColumn('action', 'admin.clients.action')
             ->setRowId('id');
