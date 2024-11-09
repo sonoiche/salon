@@ -22,11 +22,11 @@ class CheckSubscription
         }
 
         $client = Client::where('user_id', $request->user()->id)->first();
-        if(isset($client) && $client->name == '') {
+        if(isset($client) && $client->name == '' && $request->user()->role == 'Client') {
             return redirect('/client/settings/company')->with('inline_error', 'Please add a salon name so that your products and services will be viewable by other customers.');
         }
 
-        if(!isset($client)) {
+        if(!isset($client) && $request->user()->role == 'Client') {
             return redirect('/client/settings/company')->with('inline_error', 'Please add a salon name so that your products and services will be viewable by other customers.');
         }
     
