@@ -18,6 +18,7 @@ return new class extends Migration
             $table->enum('status', ['Paid','Unpaid'])->nullable();
             $table->string('reference_number')->nullable();
             $table->string('proof_of_payment')->nullable();
+            $table->string('subscription_basis')->nullable();
             $table->timestamps();
         });
     }

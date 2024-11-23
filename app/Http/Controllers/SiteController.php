@@ -11,6 +11,7 @@ use App\Models\SalonProduct;
 use Illuminate\Http\Request;
 use App\Mail\NotificationMail;
 use App\Models\ProductOrderItem;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Gloudemans\Shoppingcart\Facades\Cart;
@@ -35,7 +36,14 @@ class SiteController extends Controller
 
     public function services()
     {
-        return view('site.services');
+        $data['clients'] = Client::select('clients.*', DB::raw('COUNT(appointments.id) as appointment_count'))
+            ->join('appointments', 'clients.id', '=', 'appointments.client_id')
+            ->groupBy('clients.id')
+            ->orderBy('appointment_count', 'desc')
+            ->limit(5)
+            ->get();
+
+        return view('site.services', $data);
     }
 
     public function shops()

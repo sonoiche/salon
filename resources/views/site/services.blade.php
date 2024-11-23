@@ -100,29 +100,44 @@
 <div class="counter-section text-white bg-yellow pt-60 pb-30">
     <div class="container">
         <div class="row">
-            <div class="col-lg-3 col-sm-6">
-                <div class="counter-item wow fadeInUp delay-0-2s">
-                    <span class="count-text" data-speed="5000" data-stop="6203">0</span>
-                    <p>project complete</p>
-                </div>
+            <div class="col-6">
+                <h4 class="text-uppercase">Top Service Salon</h4>
+                <ul class="list-group list-group-flush">
+                    @foreach ($clients as $client)
+                    <li class="list-group-item d-flex justify-content-between align-items-center" style="background-color: transparent">
+                        <div class="ms-2 me-auto">{{ $client->name }}</div>
+                        <div class="badge rounded-pill d-flex align-items-center">{{ $client->appointment_count }}</div>
+                    </li>
+                    @endforeach
+                </ul>
             </div>
-            <div class="col-lg-3 col-sm-6">
-                <div class="counter-item wow fadeInUp delay-0-4s">
-                    <span class="count-text" data-speed="5000" data-stop="456">0</span>
-                    <p>Expert Members</p>
-                </div>
-            </div>
-            <div class="col-lg-3 col-sm-6">
-                <div class="counter-item wow fadeInUp delay-0-6s">
-                    <span class="count-text" data-speed="5000" data-stop="35">0</span>
-                    <p>Years Experience</p>
-                </div>
-            </div>
-            <div class="col-lg-3 col-sm-6">
-                <div class="counter-item wow fadeInUp delay-0-8s">
-                    <span class="count-text" data-speed="5000" data-stop="7563">0</span>
-                    <p>Saticfied Clients</p>
-                </div>
+            <div class="col-6">
+                {{-- <div class="row">
+                    <div class="col-lg-6 col-sm-6">
+                        <div class="counter-item wow fadeInUp delay-0-2s">
+                            <span class="count-text" data-speed="5000" data-stop="6203">0</span>
+                            <p>project complete</p>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-sm-6">
+                        <div class="counter-item wow fadeInUp delay-0-4s">
+                            <span class="count-text" data-speed="5000" data-stop="456">0</span>
+                            <p>Expert Members</p>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-sm-6">
+                        <div class="counter-item wow fadeInUp delay-0-6s">
+                            <span class="count-text" data-speed="5000" data-stop="35">0</span>
+                            <p>Years Experience</p>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-sm-6">
+                        <div class="counter-item wow fadeInUp delay-0-8s">
+                            <span class="count-text" data-speed="5000" data-stop="7563">0</span>
+                            <p>Saticfied Clients</p>
+                        </div>
+                    </div>
+                </div> --}}
             </div>
         </div>
     </div>

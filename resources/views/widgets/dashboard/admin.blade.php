@@ -112,6 +112,8 @@
                             <tr>
                                 <th scope="col">Date Registered</th>
                                 <th scope="col">Name</th>
+                                <th scope="col">Amount</th>
+                                <th scope="col" class="text-center">Period</th>
                                 <th scope="col">Payment Status</th>
                                 <th scope="col">Documents</th>
                                 <th scope="col" class="text-center">Action</th>
@@ -122,6 +124,8 @@
                             <tr>
                                 <td>{{ $user->created_date }}</td>
                                 <td>{{ $user->fullname }}</td>
+                                <td>{{ isset($user->subscriptions[0]->amount) ? 'P'.$user->subscriptions[0]->amount : '' }}</td>
+                                <td class="text-center">{{ isset($user->subscriptions[0]->subscription_basis) ? config('app.basis')[$user->subscriptions[0]->subscription_basis]['name'] : '' }}</td>
                                 <td>{{ $user->subscriptions[0]->status ?? '' }}</td>
                                 <td>
                                     @if (isset($user->subscriptions[0]->proof_of_payment))

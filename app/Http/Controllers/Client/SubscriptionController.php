@@ -28,12 +28,14 @@ class SubscriptionController extends Controller
 
     public function store(SubscriptionRequest $request)
     {
+        $basis   = config('app.basis');
         $user_id = auth()->user()->id;
         $subscription = new Subscription();
-        $subscription->user_id          = $user_id;
-        $subscription->amount           = 100.00;
-        $subscription->status           = 'Unpaid';
-        $subscription->reference_number = strtoupper(Str::random(10));
+        $subscription->user_id              = $user_id;
+        $subscription->amount               = $basis[$request['subscription_basis']]['amount'];
+        $subscription->status               = 'Unpaid';
+        $subscription->reference_number     = strtoupper(Str::random(10));
+        $subscription->subscription_basis   = $request['subscription_basis'];
 
         if(isset($request['payment']) && $request->has('payment')) {
             $file    = $request->file('payment');
@@ -58,6 +60,7 @@ class SubscriptionController extends Controller
     {
         $what = $request['what'];
         $subscription = Subscription::find($id);
+        $basis = config('app.basis');
 
         switch ($what) {
             case 'paid':
@@ -65,11 +68,14 @@ class SubscriptionController extends Controller
                 $subscription->save();
 
                 $user = User::find($subscription->user_id);
-                $user->subscribe_until  = Carbon::now()->addDays(30);
+                $user->subscribe_until  = $basis[$subscription->subscription_basis]['expiry'];
                 $user->subscription     = true;
                 $user->save();
 
-                $message = 'Subscription has been updated.';
+                $message  = 'Subscription has been updated.';
+                $message2 = "We are happy to tell that your registration for a salon on our website has been approved.";
+                
+                Mail::to($user->email)->send(new NotificationMail($user, $message2));
 
                 break;
             

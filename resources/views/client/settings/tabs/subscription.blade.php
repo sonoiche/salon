@@ -5,9 +5,19 @@
         <form action="{{ url('client/settings/subscription') }}" method="post" enctype="multipart/form-data">
             @csrf
             <div class="p-sm-3 p-0">
-                <div class="col-xl-6 mb-3">
-                    <label for="proof-payment" class="form-label">Proof of Payment</label>
-                    <input type="file" name="payment" class="form-control rounded-0" id="proof-payment" />
+                <div class="row">
+                    <div class="col-xl-4 mb-3">
+                        <label for="proof-payment" class="form-label">Proof of Payment</label>
+                        <input type="file" name="payment" class="form-control rounded-0" id="proof-payment" />
+                    </div>
+                    <div class="col-xl-3 mb-3">
+                        <label for="proof-payment" class="form-label">Subsciption Period</label>
+                        <select name="subscription_basis" id="subscription_basis" class="form-select form-control rounded-0">
+                            <option value="1">Monthly</option>
+                            <option value="2">Quarterly</option>
+                            <option value="3">Annual</option>
+                        </select>
+                    </div>
                 </div>
                 <div class="col-xl-6">
                     <button class="btn btn-primary" type="submit">Upload Proof of Payment</button>

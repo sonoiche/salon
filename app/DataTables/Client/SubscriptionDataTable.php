@@ -3,6 +3,7 @@
 namespace App\DataTables\Client;
 
 use App\Models\Subscription;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
@@ -23,7 +24,7 @@ class SubscriptionDataTable extends DataTable
     {
         return (new EloquentDataTable($query))
             ->editColumn('created_at', function (Subscription $subscription) {
-                return $subscription->created_at->format('d F Y');
+                return $subscription->created_at->format('d M Y');
             })
             ->editColumn('amount', function (Subscription $subscription) {
                 return 'P' . $subscription->amount;
@@ -32,6 +33,13 @@ class SubscriptionDataTable extends DataTable
                 if(isset($subscription->proof_of_payment)) {
                     return '<a href="' .$subscription->proof_of_payment. '" class="btn btn-outline-primary btn-sm" target="_blank"><i class="bi bi-download"></i> &nbsp; ' . basename($subscription->proof_of_payment) . '</a>';
                 }
+            })
+            ->editColumn('subscription_basis', function (Subscription $subscription) {
+                $basis = config('app.basis');
+                return $basis[$subscription->subscription_basis]['name'];
+            })
+            ->editColumn('subscribe_until', function (Subscription $subscription) {
+                return isset(auth()->user()->subscribe_until) ? Carbon::parse(auth()->user()->subscribe_until)->format('d M Y') : '';
             })
             ->setRowId('id')
             ->rawColumns(['proof_of_payment']);
@@ -75,6 +83,14 @@ class SubscriptionDataTable extends DataTable
             Column::make(['data' => 'created_at', 'title' => 'Date']),
             Column::make(['data' => 'reference_number', 'title' => 'Reference Number']),
             Column::make(['data' => 'amount', 'title' => 'Amount']),
+            Column::make(['data' => 'subscription_basis', 'title' => 'Subsciption Period'])
+                ->addClass('text-center')
+                ->sortable(false)
+                ->searchable(false),
+            Column::make(['data' => 'subscribe_until', 'title' => 'Active Until'])
+                ->addClass('text-center')
+                ->sortable(false)
+                ->searchable(false),
             Column::make('status')
                 ->addClass('text-center')
                 ->sortable(false),

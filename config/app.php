@@ -1,5 +1,7 @@
 <?php
 
+use Carbon\Carbon;
+
 return [
 
     /*
@@ -122,5 +124,23 @@ return [
         'driver' => env('APP_MAINTENANCE_DRIVER', 'file'),
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
+
+    'basis' => [
+        1 => [
+            'name' => 'Monthly',
+            'amount' => 100,
+            'expiry' => Carbon::now()->addDays(30)
+        ],
+        2 => [
+            'name' => 'Quarterly',
+            'amount' => 300,
+            'expiry' => Carbon::now()->addMonths(3)
+        ],
+        3 => [
+            'name' => 'Annual',
+            'amount' => 1200,
+            'expiry' => Carbon::now()->addYear()
+        ]
+    ]
 
 ];

@@ -76,7 +76,7 @@ class User extends Authenticatable
     public function isSubscribed()
     {
         $today = now()->format('Y-m-d h:i:s');
-        if($this->subscription == 1 && ($this->subscribe_until != null || $this->subscribe_until >= $today)) {
+        if($this->subscription == 1 && $this->subscribe_until != null && $this->subscribe_until >= $today) {
             return true;
         }
 

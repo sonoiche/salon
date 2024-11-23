@@ -104,10 +104,11 @@ class ProductController extends Controller
 
     public function update(ProductRequest $request, $id)
     {
-        $product_id = $request['product_id'];
-        $user_id    = auth()->user()->id;
+        $product_id         = $request['product_id'];
+        $salon_product_id   = $request['salon_product_id'];
+        $user_id            = auth()->user()->id;
 
-        if (filter_var($product_id, FILTER_VALIDATE_INT)) {
+        if (filter_var($product_id, FILTER_VALIDATE_INT) && isset($salon_product_id)) {
             $salon_product = SalonProduct::find($id);
             $salon_product->description = $request['description'];
             $salon_product->amount      = $request['amount'];

@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Auth;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use App\Mail\NotificationMail;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -103,6 +105,11 @@ class RegisterController extends Controller
 
     protected function registered(Request $request, $user)
     {
+        $admin   = User::find(1);
+        $message = "Hooray! There is a new registered ".$user->role." in " .config('app.name'). ".";
+        $content = ['message' => $message];
+        Mail::to($admin->email)->send(new NotificationMail($admin, $content));
+
         if($user->role == 'Client') {
             return redirect()->to('client/settings/subscription')
                 ->with('success', 'You have successfully registered.');

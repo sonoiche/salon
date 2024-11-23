@@ -18,6 +18,7 @@
                             <button class="btn btn-primary" type="submit">Save Changes</button>
                         </div>
                     </div>
+                    <input type="hidden" name="salon_product_id" value="{{ $salon_product->id }}" />
                 </form>
             </div>
         </div>

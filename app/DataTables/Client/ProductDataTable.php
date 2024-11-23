@@ -5,6 +5,7 @@ namespace App\DataTables\Client;
 use App\Models\Client;
 use App\Models\Product;
 use App\Models\SalonProduct;
+use App\Models\SalonProductPhoto;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
@@ -25,8 +26,12 @@ class ProductDataTable extends DataTable
     {
         return (new EloquentDataTable($query))
             ->editColumn('feature_photo', function (Product $product) {
-                $salonProduct = SalonProduct::where('product_id', $product->id)->first();
-                return '<img src="' .$salonProduct->feature_photo. '" class="img-thumbnail" />';
+                $salonProduct = SalonProductPhoto::where('salon_product_id', $product->id)->first();
+                if(isset($salonProduct->photo)) {
+                    return '<img src="' .$salonProduct->photo. '" class="img-thumbnail" style="width: 100px; height: 60px; object-fit: cover" />';
+                }
+
+                return '<img src="' .url('backend/images/faces/9.jpg'). '" class="img-thumbnail" style="width: 100px; height: 60px; object-fit: cover" />';
             })
             ->editColumn('created_at', function (Product $product) {
                 return $product->created_at->format('d F, Y');
