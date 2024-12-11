@@ -79,7 +79,7 @@ class AppointmentController extends Controller
     {
         $client = Client::find($id);
         $service_id = $request['service_id'];
-        $data['service'] = SalonService::where('service_id', $service_id)->where('client_id', $client->user_id)->first();
+        $data['service'] = SalonService::where('service_id', $service_id)->where('client_id', $client->id)->first();
 
         return response()->json($data);
     }
