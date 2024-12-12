@@ -16,17 +16,19 @@
             @foreach ($salons as $salon)
             <div class="col-lg-4 col-sm-6">
                 <div class="team-member wow fadeInUp delay-0-2s">
-                    <img src="{{ url('assets/images/teams/team-member-1.jpg') }}" alt="Team">
-                    <div class="member-description">
-                        <h5>{{ $salon->name }}</h5>
-                        <span class="designations">{{ $salon->user->fullname ?? '' }}</span>
-                        <div class="social-style-three">
-                            <a href="#"><i class="fab fa-facebook-f"></i></a>
-                            <a href="#"><i class="fab fa-twitter"></i></a>
-                            <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                            <a href="#"><i class="fab fa-youtube"></i></a>
+                    <a href="{{ url('salons', $salon->id) }}">
+                        <img src="{{ $salon->display_photo }}" style="width: 300px; height: 300px; object-fit: cover">
+                        <div class="member-description">
+                            <h5>{{ $salon->name }}</h5>
+                            <span class="designations">{{ $salon->user->fullname ?? '' }}</span>
+                            {{-- <div class="social-style-three">
+                                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                                <a href="#"><i class="fab fa-twitter"></i></a>
+                                <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                                <a href="#"><i class="fab fa-youtube"></i></a>
+                            </div> --}}
                         </div>
-                    </div>
+                    </a>
                 </div>
             </div>
             @endforeach
@@ -43,7 +45,7 @@
             <div class="col-lg-5">
                 <div class="team-contact-left rmb-55 wow fadeInUp delay-0-2s">
                     <div class="section-title text-white mb-25">
-                        <span class="sub-title">Make Appointment</span>
+                        <span class="sub-title" style="color: #fff">Make Appointment</span>
                         <h2>Get Hair Treatment Booking Seat</h2>
                     </div>
                     <a href="#" class="read-more">learn more <i class="fas fa-long-arrow-alt-right"></i></a>

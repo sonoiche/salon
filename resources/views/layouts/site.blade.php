@@ -62,7 +62,7 @@
                                         <li><a href="{{ url('/') }}">Home</a></li>
                                         <li><a href="{{ url('/products') }}">Products</a></li>
                                         <li><a href="{{ url('/services') }}">Services</a></li>
-                                        {{-- <li><a href="{{ url('/shops') }}">Shops</a></li> --}}
+                                        <li><a href="{{ url('/salons') }}">Salons</a></li>
                                         @if (auth()->check())
                                         <li><a href="{{ url('/appointment') }}">My Appointments</a></li>
                                         <li><a href="{{ url('/dashboard') }}">{{ auth()->user()->role }} Dashboard</a></li>

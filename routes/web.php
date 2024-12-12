@@ -51,7 +51,9 @@ Route::middleware('auth:web')->group( function () {
 Route::get('products/{name}', [SiteController::class, 'product_details']);
 Route::get('products', [SiteController::class, 'products']);
 Route::get('services', [SiteController::class, 'services']);
-Route::get('shops', [SiteController::class, 'shops']);
+Route::get('salons/{id}', [SiteController::class, 'showSalon']);
+Route::post('salons', [SiteController::class, 'storeSalon']);
+Route::get('salons', [SiteController::class, 'salons']);
 
 Route::get('cart', [SiteController::class, 'cart']);
 Route::delete('cart/{rowId}', [SiteController::class, 'deleteCartItem']);

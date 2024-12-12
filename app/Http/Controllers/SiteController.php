@@ -8,6 +8,7 @@ use App\Models\Product;
 use Illuminate\Support\Str;
 use App\Models\ProductOrder;
 use App\Models\SalonProduct;
+use App\Models\SalonService;
 use Illuminate\Http\Request;
 use App\Mail\NotificationMail;
 use App\Models\ProductOrderItem;
@@ -15,6 +16,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Gloudemans\Shoppingcart\Facades\Cart;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx\Rels;
 
 class SiteController extends Controller
 {
@@ -46,10 +48,31 @@ class SiteController extends Controller
         return view('site.services', $data);
     }
 
-    public function shops()
+    public function salons()
     {
         $data['salons'] = Client::orderBy('name')->get();
         return view('site.shops', $data);
+    }
+
+    public function showSalon($id)
+    {
+        $data['salon'] = $client = Client::find($id);
+        
+        $topServices = SalonService::whereHas('appointments', function ($query) use ($id) {
+                $query->where('client_id', $id);
+            })->withCount('appointments')
+            ->orderBy('appointments_count', 'desc')
+            ->take(3)
+            ->get();
+
+        $topServices->each(function ($service) use ($id) {
+            $service->appointments_count = $service->appointments()->where('client_id', $id)->count();
+        });
+
+        $data['top_services'] = $topServices;
+        $data['ratings']      = $client->ratings;
+
+        return view('site.show-shop', $data);
     }
 
     public function cart()
@@ -161,5 +184,16 @@ class SiteController extends Controller
         Cart::destroy();
 
         return redirect()->to('dashboard');
+    }
+
+    public function storeSalon(Request $request)
+    {
+        $comment = $request['review'];
+        $rating  = $request['rating'];
+        $id      = $request['salon_id'];
+        $salon   = Client::find($id);
+        $salon->rate($rating, $comment);
+
+        return redirect()->back();
     }
 }
