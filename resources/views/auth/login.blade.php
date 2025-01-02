@@ -13,9 +13,9 @@
                     <div class="card custom-card shadow-none my-4">
                         <div class="card-body p-4">
                             <div class="mb-3 d-flex justify-content-center">
-                                <a href="index.html">
-                                    <img src="{{ url('backend/images/brand-logos/desktop-logo.png') }}" alt="logo" class="authentication-brand desktop-logo">
-                                    <img src="{{ url('backend/images/brand-logos/desktop-dark.png') }}" alt="logo" class="authentication-brand desktop-dark">
+                                <a href="{{ url('/') }}">
+                                    <img src="{{ url('assets/images/bb-logo.png') }}" alt="logo" class="authentication-brand desktop-logo">
+                                    <img src="{{ url('assets/images/bb-logo.png') }}" alt="logo" class="authentication-brand desktop-dark">
                                 </a>
                             </div>
                             <p class="h5 mb-2 text-center">Sign In</p>
@@ -69,7 +69,7 @@
             <div class="authentication-cover bg-primary">
                 <div>
                     <div class="authentication-cover-image">
-                        <img src="{{ url('backend/images/media/media-67.png') }}" alt="">
+                        <img src="{{ url('assets/images/bb-logo.png') }}" alt="">
                     </div>
                     <div class="text-center mb-4">
                         <h1 class="text-fixed-white">Sign In</h1>
