@@ -21,7 +21,7 @@
                                 <th>Service</th>
                                 <th>Schedule</th>
                                 <th>Amount</th>
-                                <th>Action</th>
+                                <th class="text-center">Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -33,16 +33,22 @@
                                 <td>{{ $appointment->service->name ?? '' }}</td>
                                 <td>{{ $appointment->schedule }}</td>
                                 <td>{{ 'P' . number_format($appointment->amount, 2) }}</td>
-                                <td>
-                                    <div class="btn-group">
-                                        <button type="button" class="btn btn-outline-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                                            Action
-                                        </button>
-                                        <ul class="dropdown-menu">
-                                            <li><a class="dropdown-item" href="{{ url('client/appointments', $appointment->id) }}/edit">Edit</a></li>
-                                            {{-- <li><a class="dropdown-item" href="javascript:void(0);" onclick="removeAppointment({{ $appointment->id }})">Delete</a></li> --}}
-                                        </ul>
+                                <td class="text-center">
+                                    @if($appointment->status === 'Pending')
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-outline-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                                Action
+                                            </button>
+                                            <ul class="dropdown-menu">
+                                                <li><a class="dropdown-item" href="{{ url('client/appointments', $appointment->id) }}/edit">Edit</a></li>
+                                                {{-- <li><a class="dropdown-item" href="javascript:void(0);" onclick="removeAppointment({{ $appointment->id }})">Delete</a></li> --}}
+                                            </ul>
+                                        </div>
+                                    @else
+                                    <div class="text-success">
+                                        {{ $appointment->status }}
                                     </div>
+                                    @endif
                                 </td>
                             </tr>
                             @empty

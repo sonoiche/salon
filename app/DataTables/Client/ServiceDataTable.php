@@ -50,7 +50,7 @@ class ServiceDataTable extends DataTable
             ->setTableId('service-table')
             ->columns($this->getColumns())
             ->minifiedAjax()
-            ->dom('Bfrtip')
+            ->dom('Brtip')
             ->orderBy(1)
             ->selectStyleSingle()
             ->buttons([

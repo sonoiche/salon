@@ -3,7 +3,7 @@
     <div class="col-lg-6 col-sm-6 col-md-6 col-xl-3">
         <div class="card custom-card">
             <div class="card-body">
-                <div class="d-flex align-items-start gap-4 flex-wrap">
+                <a href="{{ url('client/orders') }}" class="d-flex align-items-start gap-4 flex-wrap">
                     <div>
                         <span class="avatar avatar-lg bg-primary-transparent">
                             <i class="ri-shopping-bag-line fs-4"></i>
@@ -19,14 +19,14 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </a>
             </div>
         </div>
     </div>
     <div class="col-lg-6 col-sm-6 col-md-6 col-xl-3">
         <div class="card custom-card">
             <div class="card-body">
-                <div class="d-flex align-items-start gap-4 flex-wrap">
+                <a href="{{  url('client/reports/sales')}}" class="d-flex align-items-start gap-4 flex-wrap">
                     <div>
                         <span class="avatar avatar-lg bg-info-transparent">
                             <i class="ri-bill-line fs-4"></i>
@@ -34,7 +34,7 @@
                     </div>
                     <div class="flex-fill d-flex align-items-center justify-content-between flex-wrap gap-3">
                         <div>
-                            <div class="mb-3">Total Sales</div>
+                            <div class="mb-3">Total Monthly Sales</div>
                             <div class="text-muted mb-1 fs-12">
                                 <span class="text-dark fs-20 lh-1 vertical-bottom">
                                     P{{ $totalSales }}
@@ -42,14 +42,14 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </a>
             </div>
         </div>
     </div>
     <div class="col-lg-6 col-sm-6 col-md-6 col-xl-3">
         <div class="card custom-card">
             <div class="card-body">
-                <div class="d-flex align-items-start gap-4 flex-wrap">
+                <a href="{{ url('client/customers') }}" class="d-flex align-items-start gap-4 flex-wrap">
                     <div>
                         <span class="avatar avatar-lg bg-success-transparent">
                             <i class="ri-user-3-line fs-4"></i>
@@ -65,14 +65,14 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </a>
             </div>
         </div>
     </div>
     <div class="col-lg-6 col-sm-6 col-md-6 col-xl-3">
         <div class="card custom-card">
             <div class="card-body">
-                <div class="d-flex align-items-start gap-4 flex-wrap">
+                <a href="{{ url('client/products') }}" class="d-flex align-items-start gap-4 flex-wrap">
                     <div>
                         <span class="avatar avatar-lg bg-warning-transparent">
                             <i class="ri-shopping-cart-2-line fs-4"></i>
@@ -88,7 +88,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </a>
             </div>
         </div>
     </div>

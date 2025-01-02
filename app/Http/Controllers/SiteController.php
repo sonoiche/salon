@@ -69,6 +69,8 @@ class SiteController extends Controller
             $service->appointments_count = $service->appointments()->where('client_id', $id)->count();
         });
 
+        $data['service_ids'] = SalonService::where('client_id', $id)->distinct('service_id')->pluck('service_id')->toArray();
+
         $data['top_services'] = $topServices;
         $data['ratings']      = $client->ratings;
 

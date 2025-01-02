@@ -12,6 +12,80 @@
                 </div>
             </div>
         </div>
+        <div class="row justify-content-center">
+            @if (in_array(1, $service_ids))
+            <div class="col-lg-4 col-sm-6">
+                <div class="service-item wow fadeInUp delay-0-2s">
+                    <img src="{{ url('assets/images/services/service-1.jpg') }}" alt="Service">
+                    <div class="service-content">
+                        <i class="flaticon-cut"></i>
+                        <h5><a href="{{ url('appointment/1') }}?salon_id={{ $salon->id }}">Hair Cutting</a></h5>
+                        <a href="{{ url('appointment/1') }}?salon_id={{ $salon->id }}" class="read-more">read more <i class="fas fa-long-arrow-alt-right"></i></a>
+                    </div>
+                </div>
+            </div>
+            @endif
+            @if (in_array(2, $service_ids))
+            <div class="col-lg-4 col-sm-6">
+                <div class="service-item wow fadeInUp delay-0-4s">
+                    <img src="{{ url('assets/images/services/service-2.jpg') }}" alt="Service">
+                    <div class="service-content">
+                        <i class="flaticon-nail"></i>
+                        <h5><a href="{{ url('appointment/2') }}?salon_id={{ $salon->id }}">Nail Polish</a></h5>
+                        <a href="{{ url('appointment/2') }}?salon_id={{ $salon->id }}" class="read-more">read more <i class="fas fa-long-arrow-alt-right"></i></a>
+                    </div>
+                </div>
+            </div>
+            @endif
+            @if (in_array(3, $service_ids))
+            <div class="col-lg-4 col-sm-6">
+                <div class="service-item wow fadeInUp delay-0-6s">
+                    <img src="{{ url('assets/images/services/service-3.jpg') }}" alt="Service">
+                    <div class="service-content">
+                        <i class="flaticon-massage-1"></i>
+                        <h5><a href="{{ url('appointment/3') }}?salon_id={{ $salon->id }}">Body Massage</a></h5>
+                        <a href="{{ url('appointment/3') }}?salon_id={{ $salon->id }}" class="read-more">read more <i class="fas fa-long-arrow-alt-right"></i></a>
+                    </div>
+                </div>
+            </div>
+            @endif
+            @if (in_array(4, $service_ids))
+            <div class="col-lg-4 col-sm-6">
+                <div class="service-item wow fadeInUp delay-0-8s">
+                    <img src="{{ url('assets/images/services/service-4.jpg') }}" alt="Service">
+                    <div class="service-content">
+                        <i class="flaticon-relax"></i>
+                        <h5><a href="{{ url('appointment/4') }}?salon_id={{ $salon->id }}">Spa & Foot</a></h5>
+                        <a href="{{ url('appointment/4') }}?salon_id={{ $salon->id }}" class="read-more">read more <i class="fas fa-long-arrow-alt-right"></i></a>
+                    </div>
+                </div>
+            </div>
+            @endif
+            @if (in_array(5, $service_ids))
+            <div class="col-lg-4 col-sm-6">
+                <div class="service-item wow fadeInUp delay-1-0s">
+                    <img src="{{ url('assets/images/services/service-5.jpg') }}" alt="Service">
+                    <div class="service-content">
+                        <i class="flaticon-beauty-treatment-1"></i>
+                        <h5><a href="{{ url('appointment/5') }}?salon_id={{ $salon->id }}">Hair Colors</a></h5>
+                        <a href="{{ url('appointment/5') }}?salon_id={{ $salon->id }}" class="read-more">read more <i class="fas fa-long-arrow-alt-right"></i></a>
+                    </div>
+                </div>
+            </div>
+            @endif
+            @if (in_array(6, $service_ids))
+            <div class="col-lg-4 col-sm-6">
+                <div class="service-item wow fadeInUp delay-1-2s">
+                    <img src="{{ url('assets/images/services/service-6.jpg') }}" alt="Service">
+                    <div class="service-content">
+                        <i class="flaticon-liner"></i>
+                        <h5><a href="{{ url('appointment/6') }}?salon_id={{ $salon->id }}">Brow Polish</a></h5>
+                        <a href="{{ url('appointment/6') }}?salon_id={{ $salon->id }}" class="read-more">read more <i class="fas fa-long-arrow-alt-right"></i></a>
+                    </div>
+                </div>
+            </div>
+            @endif
+        </div>
         <div class="row">
             <div class="col-6">
                 <ol class="list-group">
@@ -73,7 +147,7 @@
                 @php
                     $user = DB::table('users')->find($rating->user_id);
                 @endphp
-                <div class="d-flex">
+                <div class="d-flex" style="margin-bottom: 15px">
                     <div class="flex-shrink-0">
                         <img src="https://static.vecteezy.com/system/resources/previews/024/766/958/non_2x/default-male-avatar-profile-icon-social-media-user-free-vector.jpg" style="width: 80px" />
                     </div>

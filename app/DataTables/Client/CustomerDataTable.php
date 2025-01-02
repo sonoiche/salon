@@ -3,14 +3,16 @@
 namespace App\DataTables\Client;
 
 use App\Models\User;
-use Illuminate\Database\Eloquent\Builder as QueryBuilder;
-use Yajra\DataTables\EloquentDataTable;
-use Yajra\DataTables\Html\Builder as HtmlBuilder;
+use App\Models\Client;
+use App\Models\ProductOrder;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
+use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
+use Yajra\DataTables\Html\Builder as HtmlBuilder;
+use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 
 class CustomerDataTable extends DataTable
 {
@@ -25,8 +27,11 @@ class CustomerDataTable extends DataTable
             ->editColumn('created_at', function (User $user) {
                 return $user->created_at->format('d M Y');
             })
-            ->editColumn('fname', function (User $user) {
+            ->editColumn('customer_name', function (User $user) {
                 return $user->fullname;
+            })
+            ->filterColumn('customer_name', function($query, $keyword) {
+                $query->whereRaw("CONCAT(fname, ' ', lname) LIKE ?", ["%{$keyword}%"]);
             })
             ->editColumn('complete_address', function (User $user) {
                 $address    = $user->address ?? '';
@@ -34,6 +39,9 @@ class CustomerDataTable extends DataTable
                 $zip_code   = $user->zip_code ?? '';
 
                 return $address . ' ' . $city . ' ' . $zip_code;
+            })
+            ->filterColumn('complete_address', function($query, $keyword) {
+                $query->whereRaw("CONCAT(address, ' ', city, ' ',zip_code) LIKE ?", ["%{$keyword}%"]);
             })
             ->editColumn('total_spent', function (User $user) {
                 return isset($user->total_purchase) ? 'P' . number_format($user->total_purchase, 2) : '';
@@ -46,7 +54,10 @@ class CustomerDataTable extends DataTable
      */
     public function query(User $model): QueryBuilder
     {
-        return $model->where('role', 'Customer');
+        $user_id      = auth()->user()->id;
+        $client       = Client::where('user_id', $user_id)->first();
+        $customer_ids = isset($client->id) ? ProductOrder::where('client_id', $client->id)->distinct()->pluck('customer_id') : [];
+        return $model->where('role', 'Customer')->whereIn('id', $customer_ids);
     }
 
     /**
@@ -75,9 +86,12 @@ class CustomerDataTable extends DataTable
     {
         return [
             Column::make(['data' => 'created_at', 'title' => 'Date Registered']),
-            Column::make(['data' => 'fname', 'title' => 'Customer Name']),
-            Column::make(['data' => 'total_spent', 'title' => 'Total Spent']),
+            Column::make(['data' => 'customer_name', 'title' => 'Customer Name']),
+            Column::make(['data' => 'total_spent', 'title' => 'Total Spent'])
+                ->sortable(false)
+                ->searchable(false),
             Column::make(['data' => 'complete_address', 'title' => 'Complete Address'])
+                ->sortable(false)
         ];
     }
 

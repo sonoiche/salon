@@ -13,9 +13,9 @@
                     <div class="col-xl-3 mb-3">
                         <label for="proof-payment" class="form-label">Subsciption Period</label>
                         <select name="subscription_basis" id="subscription_basis" class="form-select form-control rounded-0">
-                            <option value="1">Monthly</option>
-                            <option value="2">Quarterly</option>
-                            <option value="3">Annual</option>
+                            <option value="1">Monthly (100Php)</option>
+                            <option value="2">Quarterly (300Php)</option>
+                            <option value="3">Annual (1200Php)</option>
                         </select>
                     </div>
                 </div>

@@ -61,7 +61,6 @@
                                     <ul class="navigation clearfix">
                                         <li><a href="{{ url('/') }}">Home</a></li>
                                         <li><a href="{{ url('/products') }}">Products</a></li>
-                                        <li><a href="{{ url('/services') }}">Services</a></li>
                                         <li><a href="{{ url('/salons') }}">Salons</a></li>
                                         @if (auth()->check())
                                         <li><a href="{{ url('/appointment') }}">My Appointments</a></li>

@@ -16,7 +16,7 @@
                                         <select name="client_id" id="client_id" class="form-select">
                                             <option value="">Select Salon</option>
                                             @foreach ($salons as $salon)
-                                            <option value="{{ $salon->id }}">{{ $salon->name }}</option>
+                                            <option value="{{ $salon->id }}" {{ (isset($_GET['salon_id']) && $_GET['salon_id'] == $salon->id) ? 'selected' : '' }}>{{ $salon->name }}</option>
                                             @endforeach
                                         </select>
                                     </div>

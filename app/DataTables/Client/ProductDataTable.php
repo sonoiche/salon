@@ -33,6 +33,12 @@ class ProductDataTable extends DataTable
 
                 return '<img src="' .url('backend/images/faces/9.jpg'). '" class="img-thumbnail" style="width: 100px; height: 60px; object-fit: cover" />';
             })
+            ->editColumn('product_sku', function (Product $product) {
+                return $product->product_sku;
+            })
+            ->filterColumn('product_sku', function($query, $keyword) {
+                $query->where('product_sku', 'LIKE', "%{$keyword}%");
+            })
             ->editColumn('created_at', function (Product $product) {
                 return $product->created_at->format('d F, Y');
             })
@@ -48,16 +54,16 @@ class ProductDataTable extends DataTable
     {
         $user   = auth()->user();
         $client = Client::where('user_id', $user->id)->first();
-        return $model->select([
-            'salon_products.id',
-            'salon_products.amount',
-            'products.name',
-            'salon_products.product_sku',
-            'salon_products.status',
-            'salon_products.created_at'
-        ])
-        ->join('salon_products','salon_products.product_id','=','products.id')
-        ->where('salon_products.client_id', $client->id);
+        return $model->join('salon_products','salon_products.product_id','=','products.id')
+            ->select(
+                'salon_products.id',
+                'salon_products.amount',
+                'products.name',
+                'salon_products.product_sku',
+                'salon_products.status',
+                'salon_products.created_at'
+            )
+            ->where('salon_products.client_id', $client->id);
     }
 
     /**

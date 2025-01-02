@@ -29,8 +29,11 @@ class ProductOrderDataTable extends DataTable
             ->editColumn('created_at', function (ProductOrder $order) {
                 return $order->created_at->format('d F, Y');
             })
-            ->editColumn('fname', function (ProductOrder $order) {
+            ->editColumn('customer_name', function (ProductOrder $order) {
                 return $order->fname . ' ' . $order->lname;
+            })
+            ->filterColumn('customer_name', function($query, $keyword) {
+                $query->whereRaw("CONCAT(users.fname, ' ', users.lname) LIKE ?", ["%{$keyword}%"]);
             })
             ->editColumn('quantity', function (ProductOrder $order) {
                 $product = ProductOrderItem::where('order_id', $order->id)->first();
@@ -97,7 +100,7 @@ class ProductOrderDataTable extends DataTable
     {
         return [
             Column::make(['data' => 'created_at', 'title' => 'Transaction Date']),
-            Column::make(['data' => 'fname', 'title' => 'Customer Name']),
+            Column::make(['data' => 'customer_name', 'title' => 'Customer Name']),
             Column::make(['data' => 'invoice_number', 'title' => 'Invoice Number']),
             Column::make(['data' => 'quantity', 'title' => 'Quantity'])
                 ->sortable(false)
