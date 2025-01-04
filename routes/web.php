@@ -62,4 +62,5 @@ Route::post('cart', [SiteController::class, 'storeCart']);
 Route::post('checkout', [SiteController::class, 'storeCheckout']);
 Route::get('checkout', [SiteController::class, 'checkout']);
 
+Route::post('appointment/timeslot', [AppointmentController::class, 'checkAvailableTime']);
 Route::resource('appointment', AppointmentController::class);

@@ -4,7 +4,7 @@
     <div class="container">
         <div class="row">
             <div class="col-8 mx-auto">
-                <h5>Appointment - {{ $service->name }}</h5>
+                <h5>Appointment - {{ $service->service->name ?? '' }}</h5>
                 <div class="card">
                     <div class="card-body">
                         <form action="{{ url('appointment') }}" method="post" enctype="multipart/form-data">
@@ -13,12 +13,7 @@
                                 <div class="col-12">
                                     <div class="mb-3">
                                         <label for="client_id" class="form-label" style="margin-top: 10px">Salon</label>
-                                        <select name="client_id" id="client_id" class="form-select">
-                                            <option value="">Select Salon</option>
-                                            @foreach ($salons as $salon)
-                                            <option value="{{ $salon->id }}" {{ (isset($_GET['salon_id']) && $_GET['salon_id'] == $salon->id) ? 'selected' : '' }}>{{ $salon->name }}</option>
-                                            @endforeach
-                                        </select>
+                                        <input type="text" id="client_id" class="form-control" value="{{ $salon->name }}" readonly />
                                     </div>
                                 </div>
                             </div>
@@ -32,13 +27,16 @@
                                 <div class="col-6">
                                     <div class="mb-3">
                                         <label for="appointment_time" class="form-label" style="margin-top: 10px">Time</label>
-                                        <input type="time" name="appointment_time" id="appointment_time" class="form-control" />
+                                        <select name="appointment_time" id="appointment_time" class="custom-select" style="height: 46px;">
+                                            <option value="">Select Time</option>
+                                        </select>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-6 d-flex align-items-center">
-                                    <h4 id="service-amount">P0.00</h4>
+                                <div class="col-6">
+                                    <div class="mb-3">
+                                        <label for="service_amount" class="form-label" style="margin-top: 10px">Service Price</label>
+                                        <input type="text" id="service_amount" class="form-control" value="P{{ $service->price }}" readonly />
+                                    </div>
                                 </div>
                                 <div class="col-6">
                                     <div class="mb-3">
@@ -46,8 +44,6 @@
                                         <input type="text" name="contact_number" id="contact_number" class="form-control" value="{{ auth()->user()->contact_number }}" />
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row">
                                 <div class="col-12">
                                     <div class="mb-3">
                                         <label for="message" class="form-label" style="margin-top: 10px">Message</label>
@@ -58,6 +54,7 @@
                             <div class="d-flex justify-content-end">
                                 <div class="form-group">
                                     <input type="hidden" name="service_id" id="service_id" value="{{ $service->id }}" />
+                                    <input type="hidden" name="salon_id" id="salon_id" value="{{ $_GET['salon_id'] ?? '' }}" />
                                     <input type="hidden" name="amount" id="amount" />
                                     <button class="btn btn-primary" type="submit">Send Appointment</button>
                                 </div>
@@ -87,16 +84,33 @@
 @push('scripts')
 <script>
 $(document).ready(function () {
-    var service_id = $('#service_id').val();
-    $('#client_id').change(function () { 
-        var client_id = $(this).val();
+    $('#appointment_date').change(function() {
+        var selectedDate = $(this).val();
+        var salon_id = $('#salon_id').val();
+        var timeSlotsSelect = $('#appointment_time');
         $.ajax({
-            type: "GET",
-            url: "{{ url('appointment') }}/" +client_id+ "/edit?service_id=" + service_id,
-            dataType: "json",
-            success: function (response) {
-                $('#service-amount').text(response.service.price);
-                $('#amount').val(response.service.price);
+            url: "{{ url('appointment/timeslot') }}",
+            method: 'POST',
+            data: {
+                appointment_date: selectedDate,
+                salon_id: salon_id
+            },
+            success: function(response) {
+                var timeSlots = response.available_time_slots;
+                
+                timeSlotsSelect.empty();
+                
+                if (timeSlots.length > 0) {
+                    timeSlotsSelect.append($('<option></option>').val('').text('Select Time'));
+                    timeSlots.forEach(item => {
+                        timeSlotsSelect.append($('<option></option>').val(item.value).text(item.name));
+                    });
+                } else {
+                    timeSlotsSelect.append($('<option></option>').val('').text('No available Time'));
+                }
+            },
+            error: function() {
+                alert('Error fetching available time slots.');
             }
         });
     });

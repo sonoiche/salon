@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Client;
 use App\Models\Service;
@@ -35,6 +36,27 @@ class AppointmentController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'appointment_date' => 'required|date',
+            'appointment_time' => 'required|date_format:H:i',
+        ]);
+
+        $date = $request['appointment_date'];
+        $time = $request['appointment_time'];
+
+        $startTime  = Carbon::createFromFormat('H:i', $time);
+        $endTime    = $startTime->copy()->addHours(2);
+
+        $appointmentCount = Appointment::where('appointment_date', $date)
+            ->where(function ($query) use ($startTime, $endTime) {
+                $query->whereBetween('appointment_time', [$startTime->format('H:i'), $endTime->format('H:i')]);
+            })
+            ->count();
+
+        if ($appointmentCount >= 3) {
+            return redirect()->back()->with('error', 'Maximum number of appointments reached for this time slot.');
+        }
+
         $appointment = new Appointment();
         $appointment->client_id         = $request['client_id'];
         $appointment->service_id        = $request['service_id'];
@@ -62,13 +84,17 @@ class AppointmentController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Request $request, string $id)
     {
         if(!auth()->check()) {
             return redirect()->to('login');
         }
-        $data['salons'] = Client::whereNotNull('name')->orderBy('name')->get();
-        $data['service'] = Service::find($id);
+
+        $salon_id = $request['salon_id'];
+
+        $data['salon']      = Client::find($salon_id);
+        $data['service']    = SalonService::with('service')->where('service_id', $id)->where('client_id', $salon_id)->first();
+
         return view('site.appointment.index', $data);
     }
 
@@ -98,5 +124,60 @@ class AppointmentController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    public function checkAvailableTime(Request $request)
+    {
+        $date = $request['appointment_date'];
+        $salon_id = $request['salon_id'];
+        $timeSlots = [
+            [
+                'name'  => '08:00AM - 10:00AM',
+                'value' => '08:00'
+            ],
+            [
+                'name'  => '10:00AM - 12:00PM',
+                'value' => '10:00'
+            ],
+            [
+                'name'  => '12:00PM - 02:00PM',
+                'value' => '12:00'
+            ],
+            [
+                'name'  => '02:00PM - 04:00PM',
+                'value' => '14:00'
+            ],
+            [
+                'name'  => '04:00PM - 06:00PM',
+                'value' => '16:00'
+            ],
+            [
+                'name'  => '06:00PM - 08:00PM',
+                'value' => '18:00'
+            ]
+        ];
+
+        $availableSlots = [];
+
+        foreach ($timeSlots as $time) {
+            // Calculate the start and end time for the 2-hour interval
+            $startTime = Carbon::createFromFormat('H:i', $time['value']);
+            $endTime = $startTime->copy()->addHours(2);
+
+            // Count the number of existing appointments in this interval
+            $appointmentCount = Appointment::where('appointment_date', $date)
+                ->where(function ($query) use ($startTime, $endTime) {
+                    $query->whereBetween('appointment_time', [$startTime->format('H:i'), $endTime->format('H:i')]);
+                })
+                ->where('client_id', $salon_id)
+                ->count();
+
+            // If the count is less than 3, add the time slot to available slots
+            if ($appointmentCount < 3) {
+                $availableSlots[] = $time;
+            }
+        }
+
+        return response()->json(['available_time_slots' => $availableSlots]);
     }
 }

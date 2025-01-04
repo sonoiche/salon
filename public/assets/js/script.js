@@ -512,7 +512,7 @@
         
         
         // 25. Nice Select
-        $('select').niceSelect();
+        // $('select').niceSelect();
         
 
         

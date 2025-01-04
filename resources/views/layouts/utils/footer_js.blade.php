@@ -9,7 +9,7 @@
 <!--====== Magnific Popup ======-->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.2.0/jquery.magnific-popup.min.js"></script>
 <!--====== Nice Select ======-->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/js/jquery.nice-select.min.js"></script>
+{{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/js/jquery.nice-select.min.js"></script> --}}
 <!--====== Image Loader ======-->
 <script src="{{ url('assets/js/imagesloaded.pkgd.min.js') }}"></script>
 <!--====== Skill bar ======-->
