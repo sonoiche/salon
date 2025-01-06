@@ -162,7 +162,7 @@ class AppointmentController extends Controller
         foreach ($timeSlots as $time) {
             // Calculate the start and end time for the 2-hour interval
             $startTime = Carbon::createFromFormat('H:i', $time['value']);
-            $endTime = $startTime->copy()->addHours(2);
+            $endTime = $startTime->copy()->addMinutes(119);
 
             // Count the number of existing appointments in this interval
             $appointmentCount = Appointment::where('appointment_date', $date)
